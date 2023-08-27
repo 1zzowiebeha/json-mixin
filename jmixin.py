@@ -10,13 +10,13 @@ class JSerializerMixin:
     @classmethod
     def from_json(cls, json_string):
         """Create a new instance of cls from a json string."""
-        # todo: ensure security by checking annotations
-
         new_class: type(cls) # uninitialized var of type cls
         json_object = json.loads(json_string)
 
         # Does cls have a callable __init__ method?
         if hasattr(cls, '__init__') and callable( getattr(cls, '__init__') ):
+            # todo: ensure correct class by checking annotations, and raise error if they don't match
+            
             init_signature = signature(cls.__init__)
             init_params = dict(init_signature.parameters) # keys are param names. values are just Parameter types (we will not use) 
 
