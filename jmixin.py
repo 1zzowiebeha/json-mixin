@@ -1,6 +1,7 @@
 import json
 from inspect import signature
 
+
 class SerializerMixin: # mixin should not have conflicting __init__ method
     def to_json(self):
         # todo: ensure security by checking annotations
@@ -26,6 +27,7 @@ class SerializerMixin: # mixin should not have conflicting __init__ method
         
         return new_class
 
+
 class Person():
     def __init__(self, name, age):
         self.name = name
@@ -39,6 +41,7 @@ class Person():
 
         string = ")"
 
+
 class Employee(SerializerMixin, Person):
     def __init__(self, name, age, salary):
         super().__init__(name, age) # init person
@@ -50,12 +53,13 @@ class Employee(SerializerMixin, Person):
     def greeting(self):
         print("hello!")
 
+
 def main():
     employee = Employee('Jogn', 44, 12000)
     employee2 = Employee.from_json(employee.to_json())
     
     employee2.greeting()
-    
+
     
 if __name__ == "__main__":
     main()
