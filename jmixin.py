@@ -3,6 +3,8 @@ from inspect import signature
 
 
 class JSerializerMixin:
+    # todo: refactor into different methods. single responsibility.
+    
     def to_json(self):
         """Return the current instance as a json string."""
         return json.dumps(self.__dict__)
