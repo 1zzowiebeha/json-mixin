@@ -1,37 +1,34 @@
 from jmixin import JSerializerMixin
 
+
 class Person():
     def __init__(self, name, age):
         self.name = name
         self.age = age
-
-    def __repr__(self):
-        string = f"{type(self).__name__}("
-        
-        for key, value in self.__dict__.items():
-            string += f"{key} = {value},"
-
-        string = ")"
 
 
 class Employee(JSerializerMixin, Person):
     def __init__(self, name, age, salary):
         super().__init__(name, age) # init person
         self.salary = salary
-        self._spooky = True
-        
-        self.to_json() # must reference self
+        self._hidden_var = "This variable was rehydrated too!"
         
     def greeting(self):
         print("hello!")
 
 
 def main():
-    employee = Employee('Jogn', 44, 12000)
-    employee2 = Employee.from_json(employee.to_json())
+    """Put entry-point body into local scope instead of global. This helps
+    programs that import this module to avoid name conflicts."""
+    employee = Employee('Jorgn', 44, 100_000)
     
-    employee2.greeting()
-    print(employee2._spooky)
+    employee_json = employee.to_json()
+    employe_from_json = Employee.from_json(employee_json)
+    
+    employe_from_json.greeting()
+    print(employe_from_json._hidden_var)
+    
+    # Success!
 
     
 if __name__ == "__main__":
