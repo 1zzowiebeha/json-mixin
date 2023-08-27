@@ -37,7 +37,7 @@ class JSerializerMixin:
             json_object = dict(json_without_signature)
         
         # set instance attributes that aren't in __init_: 
-        # improve performance for this with vars() maybe?
+        # is there a way to improve performance here?
         for key, value in json_object.items():
             new_class.__dict__[key] = value
         
