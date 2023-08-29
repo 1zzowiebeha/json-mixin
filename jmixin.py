@@ -3,12 +3,20 @@ from inspect import signature
 
 
 class JSerializerMixin:
-    # todo: refactor into different methods. single responsibility.
-    
+    # todo: refactor into different methods as fit. single responsibility.
+    # todo: check type annotations, and check attribute value type against annotations
+    # if there aren't annotations, we can't really guarantee safeguards for the user.
+    # todo: set class attributes only once? how do we handle these..
+
     def to_json(self):
         """Return the current instance as a json string."""
         return json.dumps(self.__dict__)
 
+    @staticmethod
+    def _annotations_check(cls, json_object):
+        """Ensure deserialized json object adheres to type annotations"""
+        pass
+    
     @classmethod
     def from_json(cls, json_string):
         """Create a new instance of cls from a json string."""
@@ -26,6 +34,7 @@ class JSerializerMixin:
             # this will allow us to not set the same init instance attrs twice
             json_without_signature = set(json_object.items()) - set(init_params.items())
 
+            # remove self after json_without_signature so that self isn't in difference set
             del init_params['self'] # omit self from arguments to be initialized
             
             # set init param argument values to actual deserialized values (not Parameter type values)
